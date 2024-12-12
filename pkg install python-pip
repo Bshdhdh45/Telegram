@@ -1,1 +1,81 @@
+from telegram import Update, User
+from telegram.ext import Application, CommandHandler, CallbackContext
 
+# التوكن الخاص بك
+TOKEN = "7776805895:AAGuDgqCdVHyfx8jSthnxgDc4zi9k5G6GWc"
+
+# دالة طباعة المعرف
+async def username(update: Update, context: CallbackContext):
+    username = update.effective_user.username
+    if username:
+        await update.message.reply_text(f"معرفك: @{username}")
+    else:
+        await update.message.reply_text("لا يوجد لديك معرف.")
+
+# دالة طباعة الآيدي
+async def user_id(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    await update.message.reply_text(f"آيديك: {user_id}")
+
+# دالة طباعة عدد الصور
+async def photos(update: Update, context: CallbackContext):
+    user_photos = await context.bot.get_user_profile_photos(update.effective_user.id)
+    photo_count = len(user_photos.photos)
+    await update.message.reply_text(f"عدد صورك: {photo_count}")
+
+# دالة طباعة الرتبة
+async def stast(update: Update, context: CallbackContext):
+    await update.message.reply_text("رتبتك: عضو")  # تعديل الرتبة حسب الحاجة
+
+# دالة طباعة الرسائل
+async def msgs(update: Update, context: CallbackContext):
+    await update.message.reply_text("رسائلك: غير متوفرة حاليًا")  # تحتاج قاعدة بيانات للتتبع
+
+# دالة طباعة اللقب
+async def custom_title(update: Update, context: CallbackContext):
+    await update.message.reply_text("لقبك: غير محدد")  # تحديث اللقب حسب الحاجة
+
+# دالة طباعة النبذة
+async def bio(update: Update, context: CallbackContext):
+    await update.message.reply_text("نبذتك: لا توجد نبذة مضافة.")  # تحديث النبذة حسب الحاجة
+
+# دالة طباعة التفاعل
+async def auto(update: Update, context: CallbackContext):
+    await update.message.reply_text("تفاعلك: متوسط")  # تحديث حسب الحاجة
+
+# دالة طباعة النسبة
+async def rate(update: Update, context: CallbackContext):
+    await update.message.reply_text("نسبة تفاعلك: 75%")  # تحديث النسبة حسب الحاجة
+
+# دالة طباعة النقاط
+async def game(update: Update, context: CallbackContext):
+    await update.message.reply_text("نقاطك: 10")  # تحديث عدد النقاط حسب الحاجة
+
+# دالة طباعة عدد الجهات
+async def cont(update: Update, context: CallbackContext):
+    await update.message.reply_text("عدد جهات الاتصال: غير متوفر")  # تحتاج إلى بيانات إضافية
+
+# دالة طباعة عدد التعديلات
+async def edit(update: Update, context: CallbackContext):
+    await update.message.reply_text("عدد تعديلاتك: غير متوفر")  # تحتاج إلى بيانات إضافية
+
+# إعداد التطبيق
+app = Application.builder().token(TOKEN).build()
+
+# إضافة الأوامر
+app.add_handler(CommandHandler("username", username))
+app.add_handler(CommandHandler("id", user_id))
+app.add_handler(CommandHandler("photos", photos))
+app.add_handler(CommandHandler("stast", stast))
+app.add_handler(CommandHandler("msgs", msgs))
+app.add_handler(CommandHandler("customtitle", custom_title))
+app.add_handler(CommandHandler("bio", bio))
+app.add_handler(CommandHandler("auto", auto))
+app.add_handler(CommandHandler("rate", rate))
+app.add_handler(CommandHandler("game", game))
+app.add_handler(CommandHandler("cont", cont))
+app.add_handler(CommandHandler("edit", edit))
+
+# تشغيل البوت
+print("بوت تيليجرام يعمل الآن...")
+app.run_polling()
